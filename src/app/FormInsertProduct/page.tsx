@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import { saveProduct } from "@/api/ServicesProduct/servicesProducts.js";
 
 import LeftMenu from "@/componets/LeftMenu";
 
 const FormInsertProduct = () => {
   const [categories, setCategories] = useState<Category[]>([
-    { _id: "1", name: "Dildos" },
-    { _id: "2", name: "Vibradores" },
+    { _id: "1", name: "Dildos" , description :"si"},
+    { _id: "2", name: "Vibradores" , description: "no" },
     // Agrega más categorías si es necesario
   ]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -58,13 +58,21 @@ const FormInsertProduct = () => {
     categoria: Yup.string().required("Requerido"),
     //imagePath: Yup.array().min(1, "Debe seleccionar al menos una imagen").required("Debe seleccionar al menos una imagen"),
   });
-
-  const handleSubmit = (values: ProductFormValues) => {
-    console.log("hola");
-    console.log(values);
-    console.log(imageFiles);
-    // Aquí puedes hacer la lógica para subir los datos y las imágenes
+  const handleSubmit = async (values: ProductFormValues) => {
+    try {
+      // Call the API function
+      const response = await saveProduct(values, imageFiles);
+      console.log("Producto guardado:", response);
+    } catch (error) {
+      console.error("Error al guardar el producto:", error);
+    }
   };
+  // const handleSubmit = (values: ProductFormValues) => {
+  //   console.log("hola");
+  //   console.log(values);
+  //   console.log(imageFiles);
+  //   // Aquí puedes hacer la lógica para subir los datos y las imágenes
+  // };
   // const handleSubmit = async (values: ProductFormValues) => {
   //   try {
   //     const formData = new FormData();
@@ -79,7 +87,7 @@ const FormInsertProduct = () => {
   //     imageFiles.forEach((file) => {
   //       formData.append('imagePath', file);
   //     });
-
+  //     console.log(formData);
   //     // Reemplaza la URL con la de tu API
   //     const response = await axios.post('/api/products', formData, {
   //       headers: {
@@ -269,8 +277,8 @@ const FormInsertProduct = () => {
                 disabled={!isValid}
                 type="submit"
                 className={`shadow ${
-                  isValid ? "bg-blue-500 hover:bg-blue-700" : "bg-gray-300 cursor-not-allowed"
-                } focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded`}
+                  isValid ? "bg-blue-900 hover:bg-blue-950" : "bg-gray-700 cursor-not-allowed"
+                } focus:shadow-outline focus:outline-none text-white font-serif py-2 px-4 rounded`}
               >
                 Agregar Producto
               </button>

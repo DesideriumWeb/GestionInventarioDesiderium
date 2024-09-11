@@ -1,11 +1,6 @@
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
 import Header from "../componets/Header";
-
-import "./globals.css";
-
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,24 +15,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    
     <html lang="en">
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Tiro+Devanagari+Hindi&display=swap"
-          rel="stylesheet"
-        ></link>
-        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
-      
+        <link rel="stylesheet"></link>
       </head>
       <body className={inter.className}>
-        <main className="font-global">
-          <Header /> 
-          <div className="font-global ">{children}</div>
+        <main>
+          <Header />
+          <div className="pt-20">{children}</div>
         </main>
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
       </body>
-
     </html>
   );
 }

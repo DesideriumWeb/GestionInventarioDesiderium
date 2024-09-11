@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Tiro+Devanagari+Hindi&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Tiro+Devanagari+Hindi&display=swap');
 
 
 .font-global{
@@ -11,13 +11,19 @@
 
 .font-sub-global  {
   font-family: 'Tiro Devanagari Hindi', sans-serif;
-}
+} */
 
 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
+
+  --primary-color: #FF1493;
+  --secondary-color: #800080;
+  --color-text : #ffff;
+  --background-header :#000;
+  --color-text-header :#ffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,4 +52,7 @@ body {
 }
 .bg-header{
   background-color: rgb(192, 192, 192);
+}
+.button{
+background-color: var(--primary-color);
 }
