@@ -6,7 +6,6 @@ interface DecodedToken {
 }
 
 export const checkSession = (): boolean => {
-  debugger
   const cookies = nookies.get(); // Get all cookies
   const token = cookies.token; // Retrieve the token cookie
 

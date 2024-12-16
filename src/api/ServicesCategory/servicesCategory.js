@@ -9,3 +9,12 @@ export const saveCategory = async (category) => {
     throw error;
   }
 };
+export const getCategory = async () => {
+  try {
+    const response = await apiClient.get("/categories");
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener la categoría:", error);
+    throw error;
+  }
+};

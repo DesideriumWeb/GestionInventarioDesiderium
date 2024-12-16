@@ -1,4 +1,6 @@
 "use client";
+import { getCategory } from "@/api/ServicesCategory/servicesCategory";
+import ModalAddCategory from "@/componets/ModalAddCategory";
 import ModalDeleteCategory from "@/componets/ModalDeleteCategory";
 import ModalUpdateCategory from "@/componets/ModalUpdateCategory";
 import ModalViewCategory from "@/componets/ModalViewCategory";
@@ -7,7 +9,11 @@ import React, { useEffect, useState } from "react";
 
 const Categories = () => {
   const [titleHeader, setTitleHeader] = useState([""]);
-  const [dataCategory, setDataCategory] = useState([""]);
+  const [dataCategory, setDataCategory] = useState<Category[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const titleHeaderCategories = () => {
     const titleHead = ["Categoria", "Descripcion", "Estado", "Configuración"];
     setTitleHeader(titleHead);
@@ -57,16 +63,25 @@ const Categories = () => {
     },
   ];
   useEffect(() => {
-    // Check if the session is active
-    const session = checkSession(); // Call the session check function
+    // Definir una función asíncrona interna para manejar la lógica
+    const fetchData = async () => {
+      try {
+        const session = checkSession(); // Llamada a la función que verifica la sesión
+        if (!session) {
+          // Redirigir si no hay sesión
+          window.location.href = "/";
+        } else {
+         const res = await getCategory();
+         setDataCategory(res.data); // Llamar a la función para obtener categorías
+          titleHeaderCategories(); // Configurar el encabezado
+        }
+      } catch (error) {
+        console.error("Error al cargar datos:", error);
+      }
+    };
 
-    if (!session) {
-      // Redirect to the home page if there is no active session
-      //window.location.href = "/";
-    } else {
-      titleHeaderCategories(); // Set the header titles if the session is active
-    }
-  }, []); // Add router to the dependency array
+    fetchData(); // Llamar a la función asíncrona
+  }, []);// Add router to the dependency array
   return (
     <>
       <section className="bg-white dark:bg-gray-900 p-3 sm:p-5 antialiased">
@@ -146,10 +161,13 @@ const Categories = () => {
               </div>
               <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                 <button
+                  // type="button"
+                  // id="createProductButton"
+                  // data-modal-toggle="createProductModal"
+                  // className="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                   type="button"
-                  id="createProductButton"
-                  data-modal-toggle="createProductModal"
-                  className="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+        onClick={openModal}
+        className="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                 >
                   <svg
                     className="h-3.5 w-3.5 mr-1.5 -ml-1"
@@ -199,9 +217,10 @@ const Categories = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map((producto) => (
+                {dataCategory &&
+                       dataCategory.map((categoria: Category) => (
                     <tr
-                      key={producto.id}
+                      key={categoria._id}
                       className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                       <td className="p-4 w-4">
@@ -220,23 +239,23 @@ const Categories = () => {
                         </div>
                       </td>
                       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {producto.name}
+                        {categoria.name}
                       </td>
 
                       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {producto.description}
+                        {categoria.description}
                       </td>
 
                       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div className="flex items-center">
                           <div
                             className={`h-4 w-4 rounded-full inline-block mr-2 ${
-                              producto.status === "Activo"
+                              categoria.state === true
                                 ? "bg-green-700"
                                 : "bg-red-700"
                             }`}
                           />
-                          {producto.status}
+                          {categoria.state}
                         </div>
                       </td>
 
@@ -419,46 +438,9 @@ const Categories = () => {
         </div>
       </section>
       {/* End block */}
-      <div
-        id="createProductModal"
-        tabIndex={-1}
-        aria-hidden="true"
-        className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:h-full"
-      >
-        <div className="relative p-4 w-full max-w-3xl h-full md:h-auto">
-          {/* Modal content */}
-          <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-            {/* Modal header */}
-            <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Add Product
-              </h3>
-              <button
-                type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-toggle="createProductModal"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* drawer component */}
-     
+      
+      <ModalAddCategory isModalOpen={isModalOpen} closeModal={closeModal} />
+      {/* drawer component */}    
       <ModalUpdateCategory/>
       {/* Preview Drawer */}
       <ModalViewCategory />
