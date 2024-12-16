@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Header from "../componets/Header";
+import { Toaster } from "react-hot-toast"; 
+import "../app/globals.css"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +27,7 @@ export default function RootLayout({
           <div className="pt-20">{children}</div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+        <Toaster />
       </body>
     </html>
   );

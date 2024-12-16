@@ -1,39 +1,13 @@
 "use client";
-import { STRINGS, TITLE_MENU_NAVBAR } from "@/config/config";
-import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faShoppingCart,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
-import "../../app/globals.css";
+import React, { useState } from "react";
 import Image from "next/image";
-import Login from "../Login";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/16/solid";
-
-// import HeaderProducts from "../HeaderProducts/HeaderProduct";
-// import ModalIzquierdaMenu from "../ModalIzquierdaMenu";
+import Login from "../../app/Login/page"
+import Link from "next/link";
 
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [open, setOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [numPedidos, setNumeroPedidos] = useState("");
-  const [showIcon, setShowIcon] = useState(false);
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      // Después de 5 segundos, establece showIcon a true
-      setShowIcon(true);
-    }, 500);
-
-    // Limpiar el temporizador al desmontar el componente
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleMenuClick = () => {
     setOpen(false);
@@ -43,7 +17,7 @@ const Header = () => {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-purple-50 border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a
+          <Link
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
@@ -56,7 +30,7 @@ const Header = () => {
             <span className="self-center text-sm sm:text-2xl font-semibold whitespace-nowrap dark:text-white">
               Desiderium Sex-Shop
             </span>
-          </a>
+          </Link>
           <button
             data-collapse-toggle="navbar-multi-level"
             type="button"
@@ -78,14 +52,14 @@ const Header = () => {
           >
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-purple-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-purple-100 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 font-sub-global">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="block py-2 px-3 text-black bg-purple-50 rounded md:bg-transparent md:text-black md:p-0 md:dark:text-white dark:bg-black md:dark:bg-transparent"
                   aria-current="page"
                   onClick={handleMenuClick}
                 >
                   Inicio
-                </a>
+                </Link>
               </li>
               <li>
                 <button
@@ -120,31 +94,31 @@ const Header = () => {
                     aria-labelledby="dropdownLargeButton"
                   >
                     <li>
-                      <a
-                        href="FormInsertCategories"
+                      <Link
+                        href="/FormInsertCategories"
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         onClick={handleMenuClick}
                       >
                         Insertar Categoria
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="FormInsertProduct"
+                      <Link
+                        href="/FormInsertProduct"
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         onClick={handleMenuClick}
                       >
                         Insertar Productos
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="TableProduct"
+                      <Link
+                        href="/TableProduct"
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         onClick={handleMenuClick}
                       >
                         Listar Productos
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a
@@ -190,7 +164,7 @@ const Header = () => {
                         >
                           <li>
                             <a
-                              href="#"
+                              href="/"
                               className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                               onClick={handleMenuClick}
                             >
@@ -199,29 +173,11 @@ const Header = () => {
                           </li>
                           <li>
                             <a
-                              href="#"
+                              href="/"
                               className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                               onClick={handleMenuClick}
                             >
                               My downloads
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                              onClick={handleMenuClick}
-                            >
-                              Billing
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                              onClick={handleMenuClick}
-                            >
-                              Rewards
                             </a>
                           </li>
                         </ul>
@@ -241,7 +197,8 @@ const Header = () => {
               </li>
 
               <li>
-                <a
+                <Link
+                  href="/Login"
                   onClick={() => {
                     setShowLogin(!showLogin);
                     handleMenuClick();
@@ -249,7 +206,7 @@ const Header = () => {
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent cursor-pointer"
                 >
                   Login
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

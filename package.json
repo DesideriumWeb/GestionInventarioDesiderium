@@ -17,9 +17,12 @@
     "flowbite": "^2.5.1",
     "flowbite-react": "^0.10.1",
     "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
     "next": "14.2.5",
+    "nookies": "^2.5.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {

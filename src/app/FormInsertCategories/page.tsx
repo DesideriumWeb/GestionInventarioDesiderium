@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { saveCategory } from "@/api/ServicesCategory/servicesCategory";
+import { toast } from "react-hot-toast";
 
 const FormInsertCategories = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,21 +19,30 @@ const FormInsertCategories = () => {
 
   const handleSubmit = async (values: Category) => {
     try {
-      // Extraer solo name y description
       const { name, description } = values;
-      
-      // Crear el objeto con solo los campos necesarios
-      const categoryData = { name, description };
+      const categoryData = { name, description, state: 1 };
   
       console.log("res", categoryData);
   
       // Enviar el objeto sin _id
       const response = await saveCategory(categoryData);
-      console.log("Categoria guardada:", response);
-    } catch (error) {
-      console.error("Error al guardar la categoria:", error);
+      console.log("Categoría guardada:", response);
+  
+      // Mostrar notificación de éxito
+      toast.success("¡Categoría guardada exitosamente!");
+    } catch (error: any) {
+      console.error("Error al guardar la categoría:", error);
+  
+      // Extraer mensaje de error del servidor (si existe)
+      const errorMessage =
+        error?.response?.data?.message || // Mensaje del servidor
+        "Hubo un error inesperado al guardar la categoría."; // Mensaje genérico
+  
+      // Mostrar notificación de error con mensaje específico
+      toast.error(`Error: ${errorMessage}`);
     }
   };
+  
   
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
